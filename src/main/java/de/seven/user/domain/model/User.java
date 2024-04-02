@@ -1,12 +1,19 @@
 package de.seven.user.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
 
+@Builder
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Getter
 public class User {
-    Integer userId;
+    String userId;
     String firstname;
     String lastname;
     String email;

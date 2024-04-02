@@ -2,44 +2,40 @@ package de.seven.user.application.service;
 
 import de.seven.user.application.adapter.secondary.UserRepository;
 import de.seven.user.domain.model.User;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
+@Service
+@Transactional
 public class UserService {
 
-    //TODO Hier den Adapter einsetzen
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public UserService(){
-        this.userRepository = userRepository;
-    }
-
+    @Autowired
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
-    public User insertUser(Map<String, String> user){
-        return userRepository.insertUser(user);
+    public User saveUser(User user){
+        return userRepository.save(user);
     }
 
-    public User updateUser(User user){
-        return userRepository.updateUser(user);
+    public void deleteUser(String userId){
+        userRepository.delete(userId);
     }
 
-    public void deleteUser(User user){
-        userRepository.deleteUser(user);
+    public User findUserById(String userId){
+        return userRepository.findById(userId);
     }
 
-    public void deleteUser(Integer userId){
-        userRepository.deleteUser(userId);
+    public List<User> findAllUsers(){
+        return userRepository.findAll();
     }
 
-    public User findUserById(Integer userId){
-        return userRepository.findUserById(userId);
-    }
-
-    public List<User> findUser(Map<String, String> user){
-        return userRepository.findUser(user);
+    public List<User> findAllHosts(){
+        return userRepository.findAll().stream().filter(User::isAHost).toList();
     }
 }

@@ -7,15 +7,11 @@ import java.util.Map;
 
 public interface UserRepository {
 
-    User insertUser(Map<String, String> user);
+    User save(User user);
 
-    User updateUser(User user);
+    User findById(String userId);
 
-    User findUserById(Integer userId);
+    List<User> findAll();
 
-    List<User> findUser(Map<String, String> user);
-
-    void deleteUser(User user);
-
-    void deleteUser(Integer userId);
+    void delete(String userId);
 }

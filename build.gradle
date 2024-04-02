@@ -7,6 +7,12 @@ plugins {
 group = 'de.seven'
 version = '0.0.1-SNAPSHOT'
 
+jar {
+    enabled = false
+    archiveClassifier.set("")
+    version = null
+}
+
 java {
     sourceCompatibility = '21'
 }

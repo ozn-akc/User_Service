@@ -1,7 +1,8 @@
 package de.seven.user.adapter.secondary.postgresql;
 
-import de.seven.user.adapter.secondary.postgresql.model.User;
+import de.seven.user.adapter.secondary.postgresql.model.UserDTO;
 import de.seven.user.application.adapter.secondary.UserRepository;
+import de.seven.user.domain.model.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
@@ -19,27 +20,27 @@ public class PostgreSQLRepository implements UserRepository {
     private final EntityManager entityManager;
 
     @Override
-    public de.seven.user.domain.model.User save(de.seven.user.domain.model.User domainUser) {
-        User user = User.fromDomainUser(domainUser);
+    public User save(User domainUser) {
+        UserDTO user = UserDTO.fromDomainUser(domainUser);
         entityManager.persist(user);
         entityManager.flush();
         return user.toDomainUser();
     }
 
     @Override
-    public de.seven.user.domain.model.User findById(String userId) {
-        return Optional.ofNullable(entityManager.find(User.class, userId)).orElse(User.builder().build()).toDomainUser();
+    public User findById(String userId) {
+        return Optional.ofNullable(entityManager.find(UserDTO.class, userId)).orElse(UserDTO.builder().build()).toDomainUser();
     }
 
     @Override
-    public List<de.seven.user.domain.model.User> findAll() {
+    public List<User> findAll() {
         String jpql = "SELECT u FROM User u";
-        TypedQuery<User> query = entityManager.createQuery(jpql, User.class);
-        return query.getResultList().stream().map(User::toDomainUser).toList();
+        TypedQuery<UserDTO> query = entityManager.createQuery(jpql, UserDTO.class);
+        return query.getResultList().stream().map(UserDTO::toDomainUser).toList();
     }
 
     @Override
     public void delete(String userId) {
-        entityManager.remove(entityManager.find(User.class, userId));
+        entityManager.remove(entityManager.find(UserDTO.class, userId));
     }
 }

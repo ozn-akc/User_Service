@@ -1,6 +1,7 @@
 package de.seven.user.adapter.secondary.postgresql.model;
 
 import de.seven.user.domain.model.Type;
+import de.seven.user.domain.model.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +22,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-public class User {
+public class UserDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String userId;
@@ -32,8 +33,8 @@ public class User {
     Date createdAt;
     Type type;
 
-    public de.seven.user.domain.model.User toDomainUser() {
-        return de.seven.user.domain.model.User.builder()
+    public User toDomainUser() {
+        return User.builder()
                 .userId(userId)
                 .firstname(firstname)
                 .lastname(lastname)
@@ -44,8 +45,8 @@ public class User {
                 .build();
     }
 
-    public static User fromDomainUser(de.seven.user.domain.model.User domainUser) {
-        return User.builder()
+    public static UserDTO fromDomainUser(User domainUser) {
+        return UserDTO.builder()
                 .userId(domainUser.getUserId())
                 .firstname(domainUser.getFirstname())
                 .lastname(domainUser.getLastname())

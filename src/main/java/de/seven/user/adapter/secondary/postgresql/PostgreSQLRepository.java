@@ -22,7 +22,7 @@ public class PostgreSQLRepository implements UserRepository {
     @Override
     public User save(User domainUser) {
         UserDTO user = UserDTO.fromDomainUser(domainUser);
-        entityManager.persist(user);
+        entityManager.merge(user);
         entityManager.flush();
         return user.toDomainUser();
     }

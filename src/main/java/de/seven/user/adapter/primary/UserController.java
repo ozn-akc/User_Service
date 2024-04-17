@@ -20,22 +20,27 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/")
-    public List<User> getProducts() {
+    public List<User> getUsers() {
         return userService.findAllUsers();
     }
 
+    @GetMapping("/host/")
+    public List<User> getHosts() {
+        return userService.findAllHosts();
+    }
+
     @GetMapping("/{userId}")
-    public User getProducts(@PathVariable String userId) {
+    public User getUser(@PathVariable String userId) {
         return userService.findUserById(userId);
     }
 
     @PostMapping("/")
-    public User saveProducts(@RequestBody User user) {
+    public User saveUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteProductById(@PathVariable String userId) {
+    public void deleteUserById(@PathVariable String userId) {
         userService.deleteUser(userId);
     }
 }

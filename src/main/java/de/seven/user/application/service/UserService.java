@@ -1,5 +1,6 @@
 package de.seven.user.application.service;
 
+import de.seven.user.application.adapter.secondary.ProductClient;
 import de.seven.user.application.adapter.secondary.UserRepository;
 import de.seven.user.domain.model.User;
 import jakarta.transaction.Transactional;
@@ -13,17 +14,27 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ProductClient productClient;
 
     @Autowired
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, ProductClient productClient){
         this.userRepository = userRepository;
+        this.productClient = productClient;
     }
 
     public User saveUser(User user){
-        return userRepository.save(user);
+        User result = userRepository.save(user);
+        if(result.isAHost()){
+            productClient.saveHost(result.getUserId());
+        }
+        return result;
     }
 
     public void deleteUser(String userId){
+        User user = findUserById(userId);
+        if(user.isAHost()){
+            productClient.deleteHost(userId);
+        }
         userRepository.delete(userId);
     }
 

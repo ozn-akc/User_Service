@@ -17,16 +17,23 @@ public class HTTPClient implements ProductClient {
     private final WebClient webClient;
 
     @Autowired
-    public HTTPClient(WebClient.Builder webClientBuilder, @Value("${example.base-url}") String baseUrl) {
+    public HTTPClient(WebClient.Builder webClientBuilder, @Value("${search.client.http}") String baseUrl) {
         this.webClient = webClientBuilder.baseUrl(baseUrl).build();
     }
 
     @Override
     public Mono<String> saveHost(String user) {
         return webClient.post()
-                .uri("/api/resource")
+                .uri("/host")
                 .body(BodyInserters.fromValue(user))
                 .retrieve()
                 .bodyToMono(String.class);
+    }
+
+    @Override
+    public void deleteHost(String hostId) {
+        webClient.delete()
+                .uri("/host/{hostId}", hostId)
+                .retrieve();
     }
 }

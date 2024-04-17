@@ -6,6 +6,7 @@ import de.seven.user.domain.model.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -25,7 +26,11 @@ public class UserService {
     public User saveUser(User user){
         User result = userRepository.save(user);
         if(result.isAHost()){
-            productClient.saveHost(result.getUserId());
+            try{
+                productClient.saveHost(result.getUserId()).block();
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }
         }
         return result;
     }
@@ -33,7 +38,7 @@ public class UserService {
     public void deleteUser(String userId){
         User user = findUserById(userId);
         if(user.isAHost()){
-            productClient.deleteHost(userId);
+            productClient.deleteHost(userId).block();
         }
         userRepository.delete(userId);
     }

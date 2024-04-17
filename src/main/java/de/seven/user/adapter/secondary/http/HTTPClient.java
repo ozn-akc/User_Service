@@ -24,16 +24,17 @@ public class HTTPClient implements ProductClient {
     @Override
     public Mono<String> saveHost(String user) {
         return webClient.post()
-                .uri("/host")
+                .uri("/host/")
                 .body(BodyInserters.fromValue(user))
                 .retrieve()
                 .bodyToMono(String.class);
     }
 
     @Override
-    public void deleteHost(String hostId) {
-        webClient.delete()
+    public Mono<Void> deleteHost(String hostId) {
+        return webClient.delete()
                 .uri("/host/{hostId}", hostId)
-                .retrieve();
+                .retrieve()
+                .bodyToMono(Void.class);
     }
 }

@@ -17,8 +17,7 @@ import java.util.Date;
 @Setter
 public class UserDTO {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    String userId;
+    String id;
     String firstname;
     String lastname;
     String email;
@@ -28,7 +27,7 @@ public class UserDTO {
 
     public User toDomainUser() {
         return User.builder()
-                .userId(userId)
+                .userId(id)
                 .firstname(firstname)
                 .lastname(lastname)
                 .email(email)
@@ -40,7 +39,7 @@ public class UserDTO {
 
     public static UserDTO fromDomainUser(User domainUser) {
         return UserDTO.builder()
-                .userId(domainUser.getUserId())
+                .id(domainUser.getUserId())
                 .firstname(domainUser.getFirstname())
                 .lastname(domainUser.getLastname())
                 .email(domainUser.getEmail())

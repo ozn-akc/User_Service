@@ -24,7 +24,6 @@ import java.util.Date;
 @Setter
 public class UserDTO {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     String userId;
     String firstname;
     String lastname;
